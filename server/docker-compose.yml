@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://sa:sasa@cluster0.dah3icc.mongodb.net/JOB-PORTAL?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=6xxVRCQ9d+GBcarFnJmaX/Brmn7kkQ9OsWy6ZSXeZpc=
+      - CLOUDINARY_CLOUD_NAME=dvofrvabg
+      - CLOUDINARY_UPLOAD_PRESET=resume_upload

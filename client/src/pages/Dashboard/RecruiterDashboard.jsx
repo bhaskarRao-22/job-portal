@@ -1,8 +1,206 @@
-const RecruiterDashboard = () => (
-  <div className="p-6 text-center">
-    <h1 className="text-2xl font-bold text-blue-600">Recruiter Dashboard</h1>
-    <p className="mt-2">Post jobs and manage applications.</p>
-  </div>
-);
+import { useEffect, useState } from "react";
+import JobForm from "../../components/JobForm";
+import { useToast } from "../../context/ToastContext";
+import { createJob, getJobs, deleteJob } from "../../services/jobService";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
+import { getJobStats } from "../../services/jobService";
+
+const RecruiterDashboard = () => {
+  const { showToast } = useToast();
+  const [jobs, setJobs] = useState([]);
+  const [jobToEdit, setJobToEdit] = useState(null);
+  const [open, setOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState([]);
+
+  const loadJobs = async () => {
+    const res = await getJobs();
+    const jobList = Array.isArray(res.data) ? res.data : res.data?.jobs || [];
+    // console.log("Fetched jobs:", jobList);
+    setJobs(jobList);
+  };
+
+  const loadStats = async () => {
+    const res = await getJobStats();
+    setStats(res.data);
+  };
+
+  const handleCreate = async (data) => {
+    setIsLoading(true);
+    try {
+      await createJob(data);
+      setTimeout(() => {
+        setIsLoading(false);
+        loadJobs();
+        showToast("Save successful!", "success");
+      }, 2000);
+    } catch (err) {
+      // console.error("Failed to create job:", err);
+      showToast(err.response?.data?.msg || "Saving failed", "error");
+    }
+  };
+
+  // const handleUpdate = async (id, data) => {
+  //   try {
+  //     await updateJob(id, data);
+  //     setJobToEdit(null);
+  //     loadJobs();
+  //   } catch (error) {
+  //     console.error("Failed to update job:", error);
+  //   }
+  // };
+
+  const handleEditModal = () => {
+    setOpen(false);
+    setJobToEdit(null);
+  };
+
+  const handleDelete = async (id) => {
+    const confirmMsg = confirm("Are you sure you want to delete this job?");
+    if (confirmMsg) {
+      await deleteJob(id);
+      loadJobs();
+    }
+  };
+
+  useEffect(() => {
+    loadJobs();
+    loadStats();
+  }, []);
+
+  return (
+    <div className="p-6">
+      <h2 className="text-xl font-bold text-blue-600 mb-4">
+        {jobToEdit ? "Edit Job" : "Post a New Job"}
+      </h2>
+      {/* <JobForm onSubmit={handleCreate} buttonLabel="Post Job" /> */}
+
+      <JobForm
+        onSubmit={handleCreate}
+        buttonLabel="Post Job"
+        isLoading={isLoading}
+      />
+
+      {/* <JobForm
+        onSubmit={
+          jobToEdit ? (data) => handleUpdate(jobToEdit._id, data) : handleCreate
+        }
+        initialValues={jobToEdit || {}}
+        buttonLabel={jobToEdit ? "Update Job" : "Post Job"}
+      /> */}
+
+      <h2 className="text-xl font-bold mt-10 mb-4">My Jobs</h2>
+      <div className="grid gap-4">
+        {jobs.map((job) => (
+          <div key={job._id} className="p-4 bg-white shadow rounded">
+            <h3 className="text-lg font-semibold">{job.title}</h3>
+            <p>
+              {job.company} • {job.location}
+            </p>
+            <p className="text-sm text-gray-600">{job.skills.join(", ")}</p>
+            <button
+              onClick={() => {
+                setJobToEdit(job);
+                setOpen(true);
+              }}
+              className="mt-2 text-blue-500 hover:underline mr-2"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(job._id)}
+              className="mt-2 text-red-500 hover:underline"
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-xl font-bold mt-10 mb-4">📊 Jobs Posted Per Month</h2>
+      <div className="w-full h-64 bg-white p-4 rounded shadow">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={stats}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis allowDecimals={false} />
+            <Tooltip />
+            <Bar dataKey="jobs" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {jobToEdit && (
+        <Dialog open={open} onClose={() => {}} className="relative z-10">
+          <DialogBackdrop
+            transition
+            className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+          />
+
+          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <DialogPanel
+                transition
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+              >
+                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <DialogTitle
+                        as="h3"
+                        className="text-base text-center font-semibold text-gray-900"
+                      >
+                        Edit Job
+                      </DialogTitle>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Are you sure you want to deactivate your account? All
+                          of your data will be permanently removed. This action
+                          cannot be undone.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <button
+                    type="button"
+                    onClick={handleEditModal}
+                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  >
+                    Deactivate
+                  </button>
+                  <button
+                    type="button"
+                    data-autofocus
+                    onClick={handleEditModal}
+                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </DialogPanel>
+            </div>
+          </div>
+        </Dialog>
+      )}
+    </div>
+  );
+};
 
 export default RecruiterDashboard;

@@ -14,10 +14,13 @@ app.use(express.json());
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/jobs", require("./routes/jobRoutes"));
+app.use("/api/applications", require("./routes/applicationRoutes"));
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+
+app.use("/api/admin", require("./routes/adminRoutes"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

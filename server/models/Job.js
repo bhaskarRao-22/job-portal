@@ -8,7 +8,16 @@ const jobSchema = new mongoose.Schema(
     salary: String,
     skills: [String],
     description: String,
-    recruiterId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+    recruiterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
