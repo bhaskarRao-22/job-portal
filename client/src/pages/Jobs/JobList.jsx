@@ -93,7 +93,7 @@ const JobList = () => {
       ))}
 
       {filteredJobs.length === 0 && (
-        <p className="text-gray-500 mt-6">No matching jobs found.</p>
+        <p className="text-gray-500 text-center mt-10">🚫 No jobs found. Try another filter.</p>
       )}
     </div>
   );

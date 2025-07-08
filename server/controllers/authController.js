@@ -50,10 +50,49 @@ exports.login = async (req, res) => {
     }
 
     const tokens = generateTokens(user);
-    res
-      .status(200)
-      .json({ user: { id: user._id, role: user.role }, ...tokens });
+    // res
+    //   .status(200)
+    //   .json({ user: { id: user._id, role: user.role }, ...tokens });
+
+    // Set refresh token in secure cookie
+    res.cookie("refreshToken", tokens.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // true on Railway
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(200).json({
+      user: { id: user._id, role: user.role },
+      accessToken: tokens.accessToken,
+    });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
+};
+
+exports.refreshToken = async (req, res) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.status(401).json({ msg: "No refresh token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(401).json({ msg: "User not found" });
+
+    const accessToken = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.json({ accessToken });
+  } catch (err) {
+    res.status(403).json({ msg: "Invalid or expired refresh token" });
+  }
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie("refreshToken");
+  res.json({ msg: "Logged out successfully" });
 };

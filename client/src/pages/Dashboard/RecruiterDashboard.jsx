@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import JobForm from "../../components/JobForm";
 import { useToast } from "../../context/ToastContext";
 import { createJob, getJobs, deleteJob } from "../../services/jobService";
@@ -47,11 +48,13 @@ const RecruiterDashboard = () => {
       setTimeout(() => {
         setIsLoading(false);
         loadJobs();
-        showToast("Save successful!", "success");
+        // showToast("Save successful!", "success");
+        toast.success("Save successful!");
       }, 2000);
     } catch (err) {
       // console.error("Failed to create job:", err);
-      showToast(err.response?.data?.msg || "Saving failed", "error");
+      // showToast(err.response?.data?.msg || "Saving failed", "error");
+      toast.error(err.response?.data?.msg || "Saving failed");
     }
   };
 

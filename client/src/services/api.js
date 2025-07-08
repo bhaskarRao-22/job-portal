@@ -4,6 +4,7 @@ import axios from "axios";
 export const API = axios.create({
   // baseURL: "http://localhost:5000/api",
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true, // critical for sending cookies
 });
 
 export const registerUser = (userData) => API.post("/auth/register", userData);

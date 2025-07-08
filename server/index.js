@@ -4,16 +4,19 @@ const cors = require("cors");
 // require("dotenv").config();
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 connectDB();
 
 const app = express();
 // app.use(cors());
-app.use(cors({
-  origin: ["http://localhost:5173", "https://job-portal-693f.vercel.app"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://job-portal-693f.vercel.app"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
@@ -29,3 +32,26 @@ app.use("/api/admin", require("./routes/adminRoutes"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.use(cookieParser());
+
+api.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    const originalReq = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalReq._retry &&
+      error.response.data.msg === "Token expired"
+    ) {
+      originalReq._retry = true;
+      const { data } = await api.post("/auth/refresh-token");
+      localStorage.setItem("token", data.accessToken);
+      api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+      originalReq.headers.Authorization = `Bearer ${data.accessToken}`;
+      return api(originalReq);
+    }
+    return Promise.reject(error);
+  }
+);

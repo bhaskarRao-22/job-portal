@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { applyToJob, uploadResume } from "../../services/applicationService";
 import LoadingButton from "../../components/LoadingButton";
 import { useToast } from "../../context/ToastContext";
@@ -16,7 +17,8 @@ const ApplyJob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return showToast("Please upload a resume", "error");
+    // if (!file) return showToast("Please upload a resume", "error");
+    if (!file) return toast.error("Please upload a resume");
     try {
       setIsLoading(true);
       const resumeUrl = await uploadResume(file);
@@ -24,10 +26,12 @@ const ApplyJob = () => {
 
       setTimeout(() => {
         setIsLoading(false);
-        showToast("Application submitted!", "success");
+        // showToast("Application submitted!", "success");
+        toast.success("Application submitted!");
       }, 2000);
     } catch (err) {
-      showToast(err.response?.data?.msg || "Error applying", "error");
+      // showToast(err.response?.data?.msg || "Error applying", "error");
+      toast.error(err.response?.data?.msg || "Error applying");
     } finally {
       setIsLoading(false);
     }
