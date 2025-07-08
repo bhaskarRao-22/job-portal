@@ -9,6 +9,7 @@ import {
   getAllUsers,
   toggleBanUser,
   deleteUser,
+  downloadCSV,
 } from "../../services/adminService";
 
 const AdminDashboard = () => {
@@ -150,6 +151,22 @@ const AdminDashboard = () => {
           </div>
         </div>
       ))}
+
+      <div className="flex gap-4 my-6">
+        <button
+          onClick={() => downloadCSV("jobs")}
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+        >
+          📁 Export Jobs CSV
+        </button>
+
+        <button
+          onClick={() => downloadCSV("users")}
+          className="px-4 py-2 bg-green-600 text-white rounded"
+        >
+          👥 Export Users CSV
+        </button>
+      </div>
     </div>
   );
 };
