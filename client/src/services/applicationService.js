@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API } from "./api";
 
 // const token = localStorage.getItem("token");
 // const config = token
@@ -16,11 +17,20 @@ import axios from "axios";
     : {};
 };
 
+// ######################## For Developement ########################
+// export const applyToJob = (data) =>
+//   axios.post(`http://localhost:5000/api/applications`, data, getAuthConfig());
+
+// export const getMyApplications = () =>
+//   axios.get(`http://localhost:5000/api/applications`, getAuthConfig());
+
+
+// ######################## For Deployment ########################
 export const applyToJob = (data) =>
-  axios.post(`http://localhost:5000/api/applications`, data, getAuthConfig());
+  API.post(`/applications`, data, getAuthConfig());
 
 export const getMyApplications = () =>
-  axios.get(`http://localhost:5000/api/applications`, getAuthConfig());
+  API.get(`/applications`, getAuthConfig());
 
 export const uploadResume = async (file) => {
   const formData = new FormData();
