@@ -42,4 +42,3 @@ export const uploadResume = async (file) => {
   );
   return res.data.secure_url;
 };
-
