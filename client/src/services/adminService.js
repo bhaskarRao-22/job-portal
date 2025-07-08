@@ -25,3 +25,4 @@ export const toggleBanUser = (id) =>
 
 export const deleteUser = (id) =>
   API.delete(`/admin/user/${id}`, config);
+

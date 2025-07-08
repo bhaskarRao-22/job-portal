@@ -102,3 +102,4 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
 };
 
 export default AuthForm;
+

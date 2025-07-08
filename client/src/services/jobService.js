@@ -67,3 +67,4 @@ export const updateJobStatus = (id, status) =>
 
 export const deleteJobAdmin = (id) =>
   API.delete(`/jobs/admin/${id}`, getAuthConfig());
+
