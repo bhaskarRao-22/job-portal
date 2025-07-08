@@ -1,10 +1,16 @@
 import axios from "axios";
 import { API } from "./api"
-const token = localStorage.getItem("token");
-const config = {
-  headers: { Authorization: `Bearer ${token}` },
-};
+// const token = localStorage.getItem("token");
+// const config = {
+//   headers: { Authorization: `Bearer ${token}` },
+// };
 
+const getAuthConfig = () => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+};
 // ######################## For Developement ########################
 // export const getAllUsers = () =>
 //   axios.get("http://localhost:5000/api/admin/users", config);
@@ -18,11 +24,11 @@ const config = {
 
 // ######################## For Deployment ########################
 export const getAllUsers = () =>
-  API.get("/admin/users", config);
+  API.get("/admin/users", getAuthConfig());
 
 export const toggleBanUser = (id) =>
-  API.patch(`/admin/ban-user/${id}`, {}, config);
+  API.patch(`/admin/ban-user/${id}`, {}, getAuthConfig());
 
 export const deleteUser = (id) =>
-  API.delete(`/admin/user/${id}`, config);
+  API.delete(`/admin/user/${id}`, getAuthConfig());
 
