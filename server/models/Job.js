@@ -18,6 +18,10 @@ const jobSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Make sure 'User' model ka naam yahi ho
+    },
   },
   { timestamps: true }
 );
