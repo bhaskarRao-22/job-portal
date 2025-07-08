@@ -11,7 +11,7 @@ connectDB();
 const app = express();
 // app.use(cors());
 app.use(cors({
-  origin: ["http://localhost:5173", "https://job-portal-tau-murex.vercel.app"],
+  origin: ["http://localhost:5173", "https://job-portal-693f.vercel.app"],
   credentials: true,
 }));
 
