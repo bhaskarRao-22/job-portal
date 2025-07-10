@@ -28,15 +28,15 @@ const UserList = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">👥 Users</h2>
+      {/* <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">👥 Users Management</h2>
         <button
           onClick={() => downloadCSV("users")}
           className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
           <ArrowDownTrayIcon className="w-5 h-5" /> Export Users
         </button>
-      </div>
+      </div> */}
 
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {users.map((user) => (

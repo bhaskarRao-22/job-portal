@@ -36,7 +36,7 @@ const JobList = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      {/* <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">📦 Job Listings</h2>
         <button
           onClick={() => downloadCSV("jobs")}
@@ -44,7 +44,7 @@ const JobList = () => {
         >
           <ArrowDownTrayIcon className="w-5 h-5" /> Export Jobs
         </button>
-      </div>
+      </div> */}
 
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {jobs.map((job) => (

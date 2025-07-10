@@ -182,11 +182,36 @@ import Sidebar from "../../components/admin/Sidebar";
 import Topbar from "../../components/admin/Topbar";
 import JobList from "../../components/admin/JobList";
 import UserList from "../../components/admin/UserList";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import { downloadCSV } from "../../services/adminService";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("jobs");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const renderRightAction = () => {
+    if (activeTab === "jobs") {
+      return (
+        <button
+          onClick={() => downloadCSV("jobs")}
+          className="flex items-center gap-2 bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 text-sm"
+        >
+          <ArrowDownTrayIcon className="w-5 h-5" />
+          Export Jobs
+        </button>
+      );
+    } else if (activeTab === "users") {
+      return (
+        <button
+          onClick={() => downloadCSV("users")}
+          className="flex items-center gap-2 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-700 text-sm"
+        >
+          <ArrowDownTrayIcon className="w-5 h-5" />
+          Export Users
+        </button>
+      );
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
@@ -200,8 +225,11 @@ const AdminDashboard = () => {
 
         <div className="flex-1 flex flex-col">
           <Topbar
-            title={activeTab === "jobs" ? "Job Listings" : "Users Management"}
+            title={
+              activeTab === "jobs" ? "📦 Job Listings" : "👥 Users Management"
+            }
             onSidebarToggle={() => setSidebarOpen(true)}
+            rightAction={renderRightAction()}
           />
 
           {/* Page Content */}
