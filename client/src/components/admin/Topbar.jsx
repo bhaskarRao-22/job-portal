@@ -3,7 +3,7 @@ import { Cog6ToothIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 const Topbar = ({ title, onSidebarToggle, rightAction }) => {
   return (
-    <header className="w-full border-b border-gray-200 px-6 py-4 fixed top-16 lg:top-16 lg:left-64 shadow-md z-10 bg-light-900/80 backdrop-blur-[50px]">
+    <header className="w-full border-b border-gray-200 px-6 py-4 fixed top-16 lg:top-16 lg:left-64 z-10 bg-light-900/80 backdrop-blur-[50px]">
       <div className="flex justify-between items-center">
         {/* Sidebar toggle (mobile only) */}
         <div className="lg:hidden mr-4">
