@@ -10,25 +10,26 @@ const SeekerDashboard = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">📄 My Applications</h2>
-      {apps.map((a) => (
-        <div key={a._id} className="p-4 bg-white shadow rounded mb-4">
-          <p>
-            <strong>Job:</strong> {a.jobId.title} @ {a.jobId.company}
-          </p>
-          <p>
-            <strong>Status: </strong>
-            {a.status}
-          </p>
-          <a
-            href={a.resumeUrl}
-            target="_blank"
-            className="text-blue-600 ubderline"
-          >
-            View Resume
-          </a>
-        </div>
-      ))}
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        📄 My Applications
+      </h2>
+
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {apps.map((a) => (
+          <div key={a._id} className="bg-light-900/80 p-6 rounded-2xl shadow-lg backdrop-blur-sm">
+            <p className="text-lg font-semibold">{a.jobId.title}</p>
+            <p className="text-sm text-gray-500">{a.jobId.company}</p>
+            <p className="text-sm text-gray-500">Status: {a.status}</p>
+            <a
+              href={a.resumeUrl}
+              target="_blank"
+              className="text-blue-600 hover:underline mt-4 inline-block"
+            >
+              View Resume
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
