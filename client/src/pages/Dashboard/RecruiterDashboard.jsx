@@ -87,121 +87,179 @@ const RecruiterDashboard = () => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold text-blue-600 mb-4">
-        {jobToEdit ? "Edit Job" : "Post a New Job"}
-      </h2>
-      {/* <JobForm onSubmit={handleCreate} buttonLabel="Post Job" /> */}
+    // <div className="p-6">
+    //   <h2 className="text-xl font-bold text-blue-600 mb-4">
+    //     {jobToEdit ? "Edit Job" : "Post a New Job"}
+    //   </h2>
+    //   {/* <JobForm onSubmit={handleCreate} buttonLabel="Post Job" /> */}
 
-      <JobForm
-        onSubmit={handleCreate}
-        buttonLabel="Post Job"
-        isLoading={isLoading}
-      />
+    //   <JobForm
+    //     onSubmit={handleCreate}
+    //     buttonLabel="Post Job"
+    //     isLoading={isLoading}
+    //   />
 
-      {/* <JobForm
-        onSubmit={
-          jobToEdit ? (data) => handleUpdate(jobToEdit._id, data) : handleCreate
-        }
-        initialValues={jobToEdit || {}}
-        buttonLabel={jobToEdit ? "Update Job" : "Post Job"}
-      /> */}
+    //   {/* <JobForm
+    //     onSubmit={
+    //       jobToEdit ? (data) => handleUpdate(jobToEdit._id, data) : handleCreate
+    //     }
+    //     initialValues={jobToEdit || {}}
+    //     buttonLabel={jobToEdit ? "Update Job" : "Post Job"}
+    //   /> */}
 
-      <h2 className="text-xl font-bold mt-10 mb-4">My Jobs</h2>
-      <div className="grid gap-4">
-        {jobs.map((job) => (
-          <div key={job._id} className="p-4 bg-white shadow rounded">
-            <h3 className="text-lg font-semibold">{job.title}</h3>
-            <p>
-              {job.company} • {job.location}
-            </p>
-            <p className="text-sm text-gray-600">{job.skills.join(", ")}</p>
-            <button
-              onClick={() => {
-                setJobToEdit(job);
-                setOpen(true);
-              }}
-              className="mt-2 text-blue-500 hover:underline mr-2"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(job._id)}
-              className="mt-2 text-red-500 hover:underline"
-            >
-              Delete
-            </button>
-          </div>
-        ))}
+    //   <h2 className="text-xl font-bold mt-10 mb-4">My Jobs</h2>
+    //   <div className="grid gap-4">
+    //     {jobs.map((job) => (
+    //       <div key={job._id} className="p-4 bg-white shadow rounded">
+    //         <h3 className="text-lg font-semibold">{job.title}</h3>
+    //         <p>
+    //           {job.company} • {job.location}
+    //         </p>
+    //         <p className="text-sm text-gray-600">{job.skills.join(", ")}</p>
+    //         <button
+    //           onClick={() => {
+    //             setJobToEdit(job);
+    //             setOpen(true);
+    //           }}
+    //           className="mt-2 text-blue-500 hover:underline mr-2"
+    //         >
+    //           Edit
+    //         </button>
+    //         <button
+    //           onClick={() => handleDelete(job._id)}
+    //           className="mt-2 text-red-500 hover:underline"
+    //         >
+    //           Delete
+    //         </button>
+    //       </div>
+    //     ))}
+    //   </div>
+
+    //   <h2 className="text-xl font-bold mt-10 mb-4">📊 Jobs Posted Per Month</h2>
+    //   <div className="w-full h-64 bg-white p-4 rounded shadow">
+    //     <ResponsiveContainer width="100%" height="100%">
+    //       <BarChart data={stats}>
+    //         <CartesianGrid strokeDasharray="3 3" />
+    //         <XAxis dataKey="month" />
+    //         <YAxis allowDecimals={false} />
+    //         <Tooltip />
+    //         <Bar dataKey="jobs" fill="#8884d8" />
+    //       </BarChart>
+    //     </ResponsiveContainer>
+    //   </div>
+
+    //   {jobToEdit && (
+    //     <Dialog open={open} onClose={() => {}} className="relative z-10">
+    //       <DialogBackdrop
+    //         transition
+    //         className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+    //       />
+
+    //       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+    //         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+    //           <DialogPanel
+    //             transition
+    //             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+    //           >
+    //             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+    //               <div className="sm:flex sm:items-start">
+    //                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+    //                   <DialogTitle
+    //                     as="h3"
+    //                     className="text-base text-center font-semibold text-gray-900"
+    //                   >
+    //                     Edit Job
+    //                   </DialogTitle>
+    //                   <div className="mt-2">
+    //                     <p className="text-sm text-gray-500">
+    //                       Are you sure you want to deactivate your account? All
+    //                       of your data will be permanently removed. This action
+    //                       cannot be undone.
+    //                     </p>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+    //               <button
+    //                 type="button"
+    //                 onClick={handleEditModal}
+    //                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+    //               >
+    //                 Deactivate
+    //               </button>
+    //               <button
+    //                 type="button"
+    //                 data-autofocus
+    //                 onClick={handleEditModal}
+    //                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+    //               >
+    //                 Cancel
+    //               </button>
+    //             </div>
+    //           </DialogPanel>
+    //         </div>
+    //       </div>
+    //     </Dialog>
+    //   )}
+    // </div>
+
+    <div className="p-6 space-y-8">
+      {/* Post Job Form Card */}
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">Post a New Job</h2>
+        <JobForm onSubmit={handleCreate} buttonLabel={isLoading ? "Posting..." : "Post Job"} isLoading={isLoading} />
       </div>
 
-      <h2 className="text-xl font-bold mt-10 mb-4">📊 Jobs Posted Per Month</h2>
-      <div className="w-full h-64 bg-white p-4 rounded shadow">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={stats}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Bar dataKey="jobs" fill="#8884d8" />
-          </BarChart>
-        </ResponsiveContainer>
+      {/* My Jobs List */}
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">My Jobs</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left">
+            <thead>
+              <tr className="bg-gray-100">
+                {["Title", "Company", "Location", "Skills", "Actions"].map(th => (
+                  <th key={th} className="px-4 py-2 font-medium">{th}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {jobs.map(job => (
+                <tr key={job._id} className="hover:bg-gray-50 transition">
+                  <td className="px-4 py-2">{job.title}</td>
+                  <td className="px-4 py-2">{job.company}</td>
+                  <td className="px-4 py-2">{job.location}</td>
+                  <td className="px-4 py-2">{job.skills.join(", ")}</td>
+                  <td className="px-4 py-2 whitespace-nowrap flex gap-2">
+                    <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>
+                    <button onClick={() => handleDelete(job._id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+                  </td>
+                </tr>
+              ))}
+              {jobs.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="px-4 py-6 text-center text-gray-500">No jobs posted yet.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {jobToEdit && (
-        <Dialog open={open} onClose={() => {}} className="relative z-10">
-          <DialogBackdrop
-            transition
-            className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
-          />
-
-          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <DialogPanel
-                transition
-                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
-              >
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <DialogTitle
-                        as="h3"
-                        className="text-base text-center font-semibold text-gray-900"
-                      >
-                        Edit Job
-                      </DialogTitle>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All
-                          of your data will be permanently removed. This action
-                          cannot be undone.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button
-                    type="button"
-                    onClick={handleEditModal}
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
-                  >
-                    Deactivate
-                  </button>
-                  <button
-                    type="button"
-                    data-autofocus
-                    onClick={handleEditModal}
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </DialogPanel>
-            </div>
-          </div>
-        </Dialog>
-      )}
+      {/* Statistics Panel */}
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">📊 Jobs Posted Over Time</h2>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={stats}>
+              <XAxis dataKey="month" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="jobs" fill="#6366F1" barSize={20} radius={[4,4,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 };
