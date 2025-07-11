@@ -46,7 +46,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
             >
               <option value="seeker">Job Seeker</option>
               <option value="recruiter">Recruiter</option>
-              <option value="admin">Admin</option>
+              {/* <option value="admin">Admin</option> */}
             </select>
           </>
         )}
