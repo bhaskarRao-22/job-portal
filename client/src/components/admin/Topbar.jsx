@@ -16,12 +16,12 @@ const Topbar = ({ title, onSidebarToggle, rightAction }) => {
         </div>
         <h1 className="text-xl font-semibold">{title}</h1>
 
-        <div className="flex items-center gap-3 pr-64">
+        <div className="flex items-center gap-3 lg:pr-64">
           {rightAction}
-          <button className="flex items-center px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 lg:hidden">
+          {/* <button className="flex items-center px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 lg:hidden">
             <Cog6ToothIcon className="h-5 w-5 mr-1" />
             Settings
-          </button>
+          </button> */}
         </div>
       </div>
     </header>
