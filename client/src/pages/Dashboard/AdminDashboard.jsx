@@ -226,7 +226,7 @@ const AdminDashboard = () => {
         <div className="flex-1 flex flex-col">
           <Topbar
             title={
-              activeTab === "jobs" ? "📦 Job Listings" : "👥 Users Management"
+              activeTab === "jobs" ? "📦 Job Listings" : "👥 Users"
             }
             onSidebarToggle={() => setSidebarOpen(true)}
             rightAction={renderRightAction()}
