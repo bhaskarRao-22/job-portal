@@ -31,7 +31,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
               type="text"
               name="name"
               placeholder="Full Name"
-              className="w-full px-4 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-gray-700 rounded-md"
               onChange={handleChange}
               required
               disabled={isLoading}
@@ -40,7 +40,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
             <select
               name="role"
               id="role"
-              className="w-full px-4 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-gray-700 rounded-md"
               onChange={handleChange}
               disabled={isLoading}
             >
@@ -54,7 +54,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
           type="email"
           name="email"
           placeholder="email"
-          className="w-full px-4 py-2 border rounded-md"
+          className="w-full px-4 py-2 border border-gray-700 rounded-md"
           onChange={handleChange}
           required
           disabled={isLoading}
@@ -63,7 +63,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
           type="password"
           name="password"
           placeholder="Password"
-          className="w-full px-4 py-2 border rounded-md"
+          className="w-full px-4 py-2 border border-gray-700 rounded-md"
           onChange={handleChange}
           required
           disabled={isLoading}

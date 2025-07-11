@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { ToastProvider } from "./context/ToastContext";
+import MainLandingPage from "./pages/MainLandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import SeekerDashboard from "./pages/Dashboard/SeekerDashboard";
@@ -15,9 +16,10 @@ function App() {
   return (
     <ToastProvider>
       <Navbar />
-      <div className="pt-16">
+      <div className="pt-16 min-h-screen bg-gradient-to-br from-white via-blue-100 to-purple-100">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<MainLandingPage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           <Route

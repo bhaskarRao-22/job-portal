@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -15,6 +16,17 @@ import logoNoBg from "../assets/images/logoNoBg.png";
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
 const Navbar = () => {
+  const [hasShadow, setHasShadow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasShadow(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const user = isAuthenticated();
   const navigate = useNavigate();
 
@@ -34,14 +46,16 @@ const Navbar = () => {
       ? [{ name: "Recruiter Dashboard", href: "/dashboard/recruiter" }]
       : [{ name: "Admin Panel", href: "/dashboard/admin" }]
     : [
-        { name: "Login", href: "/" },
+        { name: "Login", href: "/login" },
         { name: "Register", href: "/register" },
       ];
 
   return (
     <Disclosure
       as="nav"
-      className="fixed top-0 left-0 w-full z-50 bg-light-800/50 backdrop-blur-sm shadow-md"
+      className={`fixed top-0 left-0 w-full z-50 bg-light-800/50 backdrop-blur-sm transition-shadow duration-300 ${
+        hasShadow ? "shadow-md" : ""
+      }`}
     >
       {({ open }) => (
         <>
