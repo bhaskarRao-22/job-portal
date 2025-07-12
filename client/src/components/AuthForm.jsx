@@ -19,7 +19,7 @@ const AuthForm = ({ isLogin, onSubmit, isLoading }) => {
   };
 
   return (
-    <div className="max-w-md max-auto p-6 bg-white shadow-xl rounded-lg mt-20 mx-auto">
+    <div className="max-w-md max-auto p-6 bg-gray-200/70 shadow-xl rounded-lg mt-20 mx-auto">
       <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
         {isLogin ? "Login" : "Register"}
       </h2>
