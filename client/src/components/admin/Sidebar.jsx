@@ -33,7 +33,7 @@ const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }) => {
       )}
 
       <aside
-        className={`fixed top-16 left-0 h-[calc(100%-4rem)] border-r border-gray-200 p-6 z-40 transform transition-transform shadow-md bg-light-900/80 backdrop-blur-[50px]
+        className={`fixed top-16 left-0 h-[calc(100%-4rem)] border-r border-gray-200 p-6 z-40 transform transition-transform shadow-md bg-light-900/80 backdrop-blur-[30px]
         ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 w-64 overflow-y-auto`}
