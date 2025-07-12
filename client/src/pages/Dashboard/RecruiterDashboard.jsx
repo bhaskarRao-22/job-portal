@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
+import Sidebar from "../../components/recruiter/Sidebar";
+import Overview from "../../components/recruiter/Overview";
+import PostJobForm from "../../components/recruiter/PostJobForm";
+import JobList from "../../components/recruiter/JobList";
+import Settings from "../../components/recruiter/Settings";
+
 import toast from "react-hot-toast";
 import JobForm from "../../components/JobForm";
 import { useToast } from "../../context/ToastContext";
-import { createJob, getJobs, deleteJob } from "../../services/jobService";
+import { createJob, getJobs, deleteJob, getJobStats } from "../../services/jobService";
 import {
   Dialog,
   DialogBackdrop,
@@ -19,7 +25,6 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { getJobStats } from "../../services/jobService";
 
 const RecruiterDashboard = () => {
   const { showToast } = useToast();
@@ -28,6 +33,20 @@ const RecruiterDashboard = () => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [stats, setStats] = useState([]);
+  const [activeTab, setActiveTab] = useState("overview");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "post":
+        return <PostJobForm />;
+      case "jobs":
+        return <JobList />;
+      case "settings":
+        return <Settings />;
+      default:
+        return <Overview />;
+    }
+  };
 
   const loadJobs = async () => {
     const res = await getJobs();
@@ -204,62 +223,10 @@ const RecruiterDashboard = () => {
     //   )}
     // </div>
 
-    <div className="p-6 space-y-8">
-      {/* Post Job Form Card */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Post a New Job</h2>
-        <JobForm onSubmit={handleCreate} buttonLabel={isLoading ? "Posting..." : "Post Job"} isLoading={isLoading} />
-      </div>
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* My Jobs List */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">My Jobs</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left">
-            <thead>
-              <tr className="bg-gray-100">
-                {["Title", "Company", "Location", "Skills", "Actions"].map(th => (
-                  <th key={th} className="px-4 py-2 font-medium">{th}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {jobs.map(job => (
-                <tr key={job._id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-2">{job.title}</td>
-                  <td className="px-4 py-2">{job.company}</td>
-                  <td className="px-4 py-2">{job.location}</td>
-                  <td className="px-4 py-2">{job.skills.join(", ")}</td>
-                  <td className="px-4 py-2 whitespace-nowrap flex gap-2">
-                    <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>
-                    <button onClick={() => handleDelete(job._id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
-                  </td>
-                </tr>
-              ))}
-              {jobs.length === 0 && (
-                <tr>
-                  <td colSpan="5" className="px-4 py-6 text-center text-gray-500">No jobs posted yet.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Statistics Panel */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">📊 Jobs Posted Over Time</h2>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={stats}>
-              <XAxis dataKey="month" />
-              <YAxis allowDecimals={false} />
-              <Tooltip />
-              <Bar dataKey="jobs" fill="#6366F1" barSize={20} radius={[4,4,0,0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      <main className="flex-1 p-6 overflow-y-auto">{renderContent()}</main>
     </div>
   );
 };
